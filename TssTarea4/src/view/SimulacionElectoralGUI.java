@@ -420,10 +420,16 @@ public class SimulacionElectoralGUI extends JFrame {
     }
     
     private void precargarPartidos() {
-        partidos.add(new Partido("MAS", 40, 5, new File("/media/chichimon/BackupRescue/Semestres Universitarios/U s7/TSS/LinuxMint/TssTarea4/TssTarea4/Participantes/Mas.png"), new File("/media/chichimon/BackupRescue/Semestres Universitarios/U s7/TSS/LinuxMint/TssTarea4/TssTarea4/Partidos/MAS-IPSP_IO.png"), "#1A237E"));
+        /*partidos.add(new Partido("MAS", 40, 5, new File("/media/chichimon/BackupRescue/Semestres Universitarios/U s7/TSS/LinuxMint/TssTarea4/TssTarea4/Participantes/Mas.png"), new File("/media/chichimon/BackupRescue/Semestres Universitarios/U s7/TSS/LinuxMint/TssTarea4/TssTarea4/Partidos/MAS-IPSP_IO.png"), "#1A237E"));
         partidos.add(new Partido("UNIDAD", 30, 5, new File("/media/chichimon/BackupRescue/Semestres Universitarios/U s7/TSS/LinuxMint/TssTarea4/TssTarea4/Participantes/Unidad.png"), new File("/media/chichimon/BackupRescue/Semestres Universitarios/U s7/TSS/LinuxMint/TssTarea4/TssTarea4/Partidos/Unidad.png"), "#388E3C"));
         partidos.add(new Partido("ALIANZA LIBRE", 20, 3, new File("/media/chichimon/BackupRescue/Semestres Universitarios/U s7/TSS/LinuxMint/TssTarea4/TssTarea4/Participantes/AlianzaLibre.png"), new File("/media/chichimon/BackupRescue/Semestres Universitarios/U s7/TSS/LinuxMint/TssTarea4/TssTarea4/Partidos/Alianza_Libre.png"), "#D32F2F"));
-        partidos.add(new Partido("SUMATE", 15, 4, new File("/media/chichimon/BackupRescue/Semestres Universitarios/U s7/TSS/LinuxMint/TssTarea4/TssTarea4/Participantes/ManfredReyesVilla_Cropped.png"), new File("/media/chichimon/BackupRescue/Semestres Universitarios/U s7/TSS/LinuxMint/TssTarea4/TssTarea4/Partidos/Sumate.png"), "#FBC02D"));
+        partidos.add(new Partido("SUMATE", 15, 4, new File("/media/chichimon/BackupRescue/Semestres Universitarios/U s7/TSS/LinuxMint/TssTarea4/TssTarea4/Participantes/ManfredReyesVilla_Cropped.png"), new File("/media/chichimon/BackupRescue/Semestres Universitarios/U s7/TSS/LinuxMint/TssTarea4/TssTarea4/Partidos/Sumate.png"), "#FBC02D"));*/
+        
+        partidos.add(new Partido("MAS", 40, 5, new File("Participantes/Mas.png"), new File("Partidos/MAS-IPSP_IO.png"), "#1A237E"));
+        partidos.add(new Partido("UNIDAD", 30, 5, new File("Participantes/Unidad.png"), new File("Partidos/Unidad.png"), "#388E3C"));
+        partidos.add(new Partido("ALIANZA LIBRE", 20, 3, new File("Participantes/AlianzaLibre.png"), new File("Partidos/Alianza_Libre.png"), "#D32F2F"));
+        partidos.add(new Partido("SUMATE", 15, 4, new File("Participantes/ManfredReyesVilla_Cropped.png"), new File("Partidos/Sumate.png"), "#FBC02D"));
+
 
         for (Partido p : partidos) {
             addPartidoPreview(p); // actualiza la vista
