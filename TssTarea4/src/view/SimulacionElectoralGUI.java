@@ -16,9 +16,6 @@ import model.DHondt;
 import model.ExportadorResultados;
 import model.Partido;
 import model.Simulador;
-
-// Necesita librería JFreeChart en el classpath:
-// https://www.jfree.org/jfreechart/
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -37,12 +34,9 @@ public class SimulacionElectoralGUI extends JFrame {
     private Map<String, Double> resultadoEscSenado = new HashMap<>();
     private Map<String, Double> resultadoEscDip = new HashMap<>();
     private Map<String, Double> resultadoVictoria = new HashMap<>();
-    private double probSegundaVuelta = 0;
-    
-    private Map<String, Map<String, Map<String, Double>>> resultadosPorDepto = new HashMap<>();
-    
-    private JLabel lblMap;
-    
+    private double probSegundaVuelta = 0;    
+    private Map<String, Map<String, Map<String, Double>>> resultadosPorDepto = new HashMap<>();    
+    private JLabel lblMap;    
     private int sims = 0;
 
     public SimulacionElectoralGUI() {
@@ -206,64 +200,6 @@ public class SimulacionElectoralGUI extends JFrame {
         panelPartidos.repaint();
     }
 
-    /*private void runSimulation() {
-        int sims = askNumSimulations();
-        Random rand = new Random();
-        resultadoVotos.clear();
-        resultadoEscSenado.clear();
-        resultadoEscDip.clear();
-        resultadoVictoria.clear();
-        probSegundaVuelta = 0;
-
-        for (int i = 0; i < sims; i++) {
-            Map<String, Double> votos = new HashMap<>();
-            double total = 0;
-            for (Partido p : partidos) {
-                double val = rand.nextGaussian() * p.getDesviacion() + p.getMedia();
-                if (val < 0) val = 0;
-                votos.put(p.getNombre(), val);
-                total += val;
-            }
-            for (String key : votos.keySet()) {
-                votos.put(key, votos.get(key) / total * 100);
-            }
-
-            java.util.List<Map.Entry<String, Double>> orden = new ArrayList<>(votos.entrySet());
-            orden.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
-            String ganador = orden.get(0).getKey();
-            String segundo = orden.get(1).getKey();
-            double pct1 = orden.get(0).getValue();
-            double pct2 = orden.get(1).getValue();
-
-            if (!(pct1 > 50 || (pct1 >= 40 && pct1 - pct2 >= 10))) {
-                probSegundaVuelta++;
-            }
-
-            for (String key : votos.keySet()) {
-                resultadoVotos.put(key, resultadoVotos.getOrDefault(key, 0.0) + votos.get(key));
-                resultadoVictoria.put(key, resultadoVictoria.getOrDefault(key, 0.0) + (key.equals(ganador) ? 1 : 0));
-            }
-
-            Map<String, Integer> escSen = asignarDHondt(votos, 4);
-            Map<String, Integer> escDip = asignarDHondt(votos, 10);
-
-            for (String key : escSen.keySet()) {
-                resultadoEscSenado.put(key, resultadoEscSenado.getOrDefault(key, 0.0) + escSen.get(key));
-                resultadoEscDip.put(key, resultadoEscDip.getOrDefault(key, 0.0) + escDip.get(key));
-            }
-        }
-
-        for (String key : resultadoVotos.keySet()) {
-            resultadoVotos.put(key, resultadoVotos.get(key) / sims);
-            resultadoEscSenado.put(key, resultadoEscSenado.get(key) / sims);
-            resultadoEscDip.put(key, resultadoEscDip.get(key) / sims);
-            resultadoVictoria.put(key, resultadoVictoria.get(key) / sims * 100);
-        }
-        probSegundaVuelta = probSegundaVuelta / sims * 100;
-
-        btnExportar.setEnabled(true);
-        redrawChart();
-    }*/
     private void runSimulation() {
         sims = askNumSimulations();
         java.util.List<String> departamentos = Arrays.asList(
@@ -392,63 +328,6 @@ public class SimulacionElectoralGUI extends JFrame {
         String inp = JOptionPane.showInputDialog(this, "Número de simulaciones:", "1000");
         try { return Integer.parseInt(inp); } catch (Exception e) { return 1000; }
     }
-
-    /*private void exportResults() {
-        JOptionPane.showMessageDialog(this, "¡Exportación completada!");
-        
-        java.util.List<String> departamentos = Arrays.asList(
-            "nacional", "la_paz", "cochabamba", "santa_cruz", "chuquisaca",
-            "tarija", "potosi", "beni", "pando", "oruro"
-        );
-        
-        int repeticiones = askNumSimulations();
-
-        for (String dpto : departamentos) {
-            Simulador simulador = new Simulador(partidos);
-
-            Map<String, Double> sumaPorcentajes = new HashMap<>();
-            Map<String, Integer> ganaPresidencia = new HashMap<>();
-            int segundaVueltaCount = 0;
-            Map<String, Integer> totalEscSenado = new HashMap<>();
-            Map<String, Integer> totalEscDip = new HashMap<>();
-
-            for (int i = 0; i < repeticiones; i++) {
-                Map<String, Double> votos = simulador.simularVotacion();
-                java.util.List<Map.Entry<String, Double>> orden = new ArrayList<>(votos.entrySet());
-                orden.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
-                String ganador = orden.get(0).getKey();
-                ganaPresidencia.put(ganador, ganaPresidencia.getOrDefault(ganador, 0) + 1);
-
-                for (String partido : votos.keySet()) {
-                    sumaPorcentajes.put(partido, sumaPorcentajes.getOrDefault(partido, 0.0) + votos.get(partido));
-                }
-
-                if (simulador.haySegundaVuelta(votos)) {
-                    segundaVueltaCount++;
-                }
-
-                Map<String, Integer> escSenado = DHondt.asignarEscanos(votos, 4);
-                for (String p : escSenado.keySet()) {
-                    totalEscSenado.put(p, totalEscSenado.getOrDefault(p, 0) + escSenado.get(p));
-                }
-
-                Map<String, Integer> escDip = DHondt.asignarEscanos(votos, 10);
-                for (String p : escDip.keySet()) {
-                    totalEscDip.put(p, totalEscDip.getOrDefault(p, 0) + escDip.get(p));
-                }
-            }
-
-            ExportadorResultados.exportarCSV(
-                dpto + ".csv",
-                sumaPorcentajes,
-                ganaPresidencia,
-                repeticiones,
-                totalEscSenado,
-                totalEscDip,
-                segundaVueltaCount
-            );
-        }
-    }*/
     
     private void exportResults() {
         int repeticiones = sims;
@@ -530,10 +409,6 @@ public class SimulacionElectoralGUI extends JFrame {
         }
     }
 
-    /*private void updateMap() {
-        String sel = (String)cbDepto.getSelectedItem();
-        lblMap.setIcon(mapas.get(sel));
-    }*/
     private void updateMap() {
         String sel = ((String) cbDepto.getSelectedItem()).toLowerCase().replace(" ", "_");
         mostrarResultadosDepartamento(sel);
