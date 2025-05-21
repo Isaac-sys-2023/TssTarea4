@@ -8,7 +8,8 @@ package model;
 import java.util.*;
 public class Simulador {
     private List<Partido> partidos;
-    private Random rand = new Random();
+    //private Random rand = new Random();
+    Random rand = new Random(leerSeedDesdeArchivo());
 
     public Simulador(List<Partido> partidos) {
         this.partidos = partidos;
@@ -42,4 +43,15 @@ public class Simulador {
 
         return !(primero > 50 || (primero >= 40 && primero - segundo >= 10));
     }
+    
+    private long leerSeedDesdeArchivo() {
+    try {
+        List<String> lineas = java.nio.file.Files.readAllLines(java.nio.file.Paths.get("simulacion_seed.txt"));
+        return Long.parseLong(lineas.get(0).trim());
+    } catch (Exception e) {
+        System.err.println("Error leyendo simulacion_seed.txt. Usando semilla aleatoria.");
+        return System.currentTimeMillis(); // fallback si el archivo no existe
+    }
+}
+
 }
