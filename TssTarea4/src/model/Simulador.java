@@ -45,13 +45,13 @@ public class Simulador {
     }
     
     private long leerSeedDesdeArchivo() {
-    try {
-        List<String> lineas = java.nio.file.Files.readAllLines(java.nio.file.Paths.get("simulacion_seed.txt"));
-        return Long.parseLong(lineas.get(0).trim());
-    } catch (Exception e) {
-        System.err.println("Error leyendo simulacion_seed.txt. Usando semilla aleatoria.");
-        return System.currentTimeMillis(); // fallback si el archivo no existe
+        try {
+            List<String> lineas = java.nio.file.Files.readAllLines(java.nio.file.Paths.get("simulacion_seed.txt"));
+            return Long.parseLong(lineas.get(0).trim());
+        } catch (Exception e) {
+            System.err.println("Error leyendo simulacion_seed.txt. Usando semilla aleatoria.");
+            return System.currentTimeMillis(); // fallback si el archivo no existe
+        }
     }
-}
 
 }

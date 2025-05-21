@@ -24,8 +24,8 @@ public class ExportadorResultados {
             }
 
             FileWriter writer = new FileWriter("resultados/" + nombreArchivo);
-            //writer.write("Partido,Promedio Voto %,Promedio Escaños Senado,Promedio Escaños Diputados,Prob. Victoria Presidencial %,Prob. Segunda Vuelta %\n");
-            writer.write("Partido;Promedio Voto %;Promedio Escaños Senado;Promedio Escaños Diputados;Prob Victoria Presidencial %;Prob. Segunda Vuelta %\n");
+            writer.write("Partido;Promedio Voto %;Promedio Escaños Senado;Promedio Escaños Diputados"
+                    + ";Prob Victoria Presidencial %;Prob. Segunda Vuelta %\n");
             
             for (String partido : porcentajes.keySet()) {
                 double promedioVoto = porcentajes.get(partido) / totalSimulaciones;
@@ -34,7 +34,6 @@ public class ExportadorResultados {
                 double porcentajeVictoria = victorias.getOrDefault(partido, 0) * 100.0 / totalSimulaciones;
                 double probSegundaVuelta = cuentaSegundaVuelta * 100.0 / totalSimulaciones;
 
-                //writer.write(String.format("%s,%.2f,%.2f,%.2f,%.2f,%.2f\n",
                 writer.write(String.format("%s;%.2f;%.2f;%.2f;%.2f;%.2f\n",
                         partido, promedioVoto, promedioSenado, promedioDip, porcentajeVictoria, probSegundaVuelta));
             }
