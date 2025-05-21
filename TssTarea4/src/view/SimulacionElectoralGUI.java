@@ -42,6 +42,8 @@ public class SimulacionElectoralGUI extends JFrame {
     private Map<String, Map<String, Map<String, Double>>> resultadosPorDepto = new HashMap<>();
     
     private JLabel lblMap;
+    
+    private int sims = 0;
 
     public SimulacionElectoralGUI() {
         setTitle("Simulación Electoral");
@@ -263,7 +265,7 @@ public class SimulacionElectoralGUI extends JFrame {
         redrawChart();
     }*/
     private void runSimulation() {
-        int sims = askNumSimulations();
+        sims = askNumSimulations();
         java.util.List<String> departamentos = Arrays.asList(
             "nacional", "la_paz", "cochabamba", "santa_cruz", "chuquisaca",
             "tarija", "potosi", "beni", "pando", "oruro"
@@ -449,7 +451,7 @@ public class SimulacionElectoralGUI extends JFrame {
     }*/
     
     private void exportResults() {
-        int repeticiones = askNumSimulations();
+        int repeticiones = sims;
 
         for (String dpto : resultadosPorDepto.keySet()) {
             Map<String, Map<String, Double>> resultados = resultadosPorDepto.get(dpto);
