@@ -5,3 +5,5 @@
 *.log
 *.bak
 *.tmp
+/TssTarea4v2/nbproject/private/
+/TssTarea4/build/
